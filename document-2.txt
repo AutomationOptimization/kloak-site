@@ -1,0 +1,7 @@
+cd entropy-gate
+git init
+git add .
+git commit -m "The Entropy Gate"
+git branch -M main
+git remote add origin https://github.com/<you>/entropy-gate.git
+git push -u origin main
