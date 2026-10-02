@@ -1,4 +1,3 @@
-```markdown
 # ⟡ The Entropy Gate ⟡
 
 An arcane, interactive codex of **probability theory and statistics** — the mathematics
@@ -64,4 +63,3 @@ README.md       this file
 
 The codex teaches the arithmetic of chance; the house-edge chapter exists so the reader
 can see exactly why the edge belongs to the house.
-```
