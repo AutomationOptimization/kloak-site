@@ -1,4 +1,3 @@
-```js
 /* The Entropy Gate — math utilities.
    All PMFs/CDFs computed with log-space accumulation to stay exact-ish for
    the parameter ranges the UI permits. BigInt is used everywhere the
@@ -159,4 +158,3 @@ window.MATH = (function () {
     moments, entropy
   };
 })();
-```

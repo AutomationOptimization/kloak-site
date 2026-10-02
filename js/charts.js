@@ -1,4 +1,3 @@
-```js
 /* The Entropy Gate — dependency-free canvas chart primitives.
    frame() handles DPR scaling + container resize (ResizeObserver when
    available); scale()/axes()/bars()/line()/points() are the drawing kit.
@@ -207,4 +206,3 @@ window.CHARTS = (function () {
 
   return { COLORS, frame, scale, ticks, axes, bars, line, points, legend };
 })();
-```

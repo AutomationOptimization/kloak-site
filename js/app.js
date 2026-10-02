@@ -1,4 +1,3 @@
-```js
 /* The Entropy Gate — shell: hero particles ("scatter, then settle"),
    scrollspy, smooth scrolling, and the localStorage progress meter.
    Hero RAF honors prefers-reduced-motion by settling instantly. */
@@ -216,4 +215,3 @@
     });
   }
 })();
-```

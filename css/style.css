@@ -1,4 +1,3 @@
-```css
 /* ============================================================
    The Entropy Gate — design system
    Obsidian ink, gold, violet. Runic probability codex.
@@ -630,4 +629,3 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .btn, .nav-link, .cards .card, .hero-cta { transition: none; }
 }
-```

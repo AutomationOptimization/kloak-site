@@ -1,4 +1,3 @@
-```js
 /* The Entropy Gate — all simulators. One initializer per interactive,
    dispatched on DOMContentLoaded. Long runs stay performant by batching
    frames, decimating stored points, and keeping running aggregates. */
@@ -1366,4 +1365,3 @@ window.SIMS = (function () {
 
   return { initAll };
 })();
-```
