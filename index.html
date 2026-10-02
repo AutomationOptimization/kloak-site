@@ -1,0 +1,853 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Entropy Gate — The Mathematics of Luck</title>
+  <meta name="description" content="An interactive arcane codex of probability theory and statistics: from sample spaces to Shannon entropy, with live simulations computed in your browser." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="The Entropy Gate — home">
+        <span class="brand-rune" aria-hidden="true">ᛝ</span>
+        <span class="brand-name">The Entropy Gate</span>
+      </a>
+      <div class="meter" title="Chapters measured">
+        <span class="meter-label">Measures recorded</span>
+        <span class="meter-count" id="meter">0/5</span>
+        <span class="meter-runes" id="meter-runes" aria-hidden="true">ᛝᛋᚦᚱᚠ</span>
+      </div>
+    </div>
+    <nav class="nav-mobile" aria-label="Chapters">
+      <a class="nav-link" href="#ch-foundations" data-section="ch-foundations"><span class="rune" aria-hidden="true">ᚠ</span><span>Foundations</span></a>
+      <a class="nav-link" href="#ch-distributions" data-section="ch-distributions"><span class="rune" aria-hidden="true">ᚱ</span><span>Distributions</span></a>
+      <a class="nav-link" href="#ch-theorems" data-section="ch-theorems"><span class="rune" aria-hidden="true">ᚦ</span><span>Theorems</span></a>
+      <a class="nav-link" href="#ch-gambler" data-section="ch-gambler"><span class="rune" aria-hidden="true">ᛋ</span><span>Gambler</span></a>
+      <a class="nav-link" href="#ch-advanced" data-section="ch-advanced"><span class="rune" aria-hidden="true">ᛝ</span><span>Advanced</span></a>
+    </nav>
+  </header>
+
+  <nav class="nav-rail" aria-label="Chapters">
+    <div class="rail-title">Codex</div>
+    <a class="nav-link" href="#ch-foundations" data-section="ch-foundations"><span class="rune" aria-hidden="true">ᚠ</span><span class="rail-text">Foundations</span></a>
+    <a class="nav-link" href="#ch-distributions" data-section="ch-distributions"><span class="rune" aria-hidden="true">ᚱ</span><span class="rail-text">Distributions</span></a>
+    <a class="nav-link" href="#ch-theorems" data-section="ch-theorems"><span class="rune" aria-hidden="true">ᚦ</span><span class="rail-text">Core Theorems</span></a>
+    <a class="nav-link" href="#ch-gambler" data-section="ch-gambler"><span class="rune" aria-hidden="true">ᛋ</span><span class="rail-text">The Gambler's Path</span></a>
+    <a class="nav-link" href="#ch-advanced" data-section="ch-advanced"><span class="rune" aria-hidden="true">ᛝ</span><span class="rail-text">Advanced Methods</span></a>
+    <div class="rail-meter">
+      <div class="rail-meter-label">many roads, one measure</div>
+      <div class="rail-meter-count"><span id="rail-meter">0</span>/5</div>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" aria-label="Introduction">
+      <div class="hero-canvas-wrap">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="hero-copy">
+        <div class="hero-runes" aria-hidden="true">ᚠ ᚱ ᚦ ᛃ ᛋ ᚲ ᛖ ᚹ</div>
+        <h1 class="hero-title">The Entropy Gate</h1>
+        <p class="hero-sub">An arcane codex of probability &amp; statistics —<br />the mathematics behind luck itself.</p>
+        <p class="hero-motto">ENTROPY GATE — scatter, then settle</p>
+        <a class="hero-cta" href="#ch-foundations">Open the codex <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <!-- ============================== CH 1 ============================== -->
+    <section class="chapter" id="ch-foundations" data-rune="ᚠ" data-title="Foundations">
+      <div class="chapter-head">
+        <span class="chapter-rune" aria-hidden="true">ᚠ</span>
+        <div>
+          <p class="chapter-kicker">Chapter I</p>
+          <h2>Foundations — The Grammar of Chance</h2>
+        </div>
+      </div>
+
+      <p>
+        Probability begins with a deceptively simple act: listing everything that can happen. The
+        <strong>sample space</strong> Ω is the set of all possible outcomes of an experiment; an <strong>event</strong>
+        is a subset of Ω. Flip three coins and the sample space is the eight strings HHH, HHT, …, TTT;
+        the event "exactly one head" is the subset {HTT, THT, TTH}. Probability assigns each event a
+        number in [0, 1], and the entire theory — from blackjack to quantum mechanics — is disciplined
+        by three axioms.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᚨ</span> Definition — Kolmogorov Axioms (1933)</div>
+        <p>
+          A <strong>probability measure</strong> P on Ω assigns every event A a number P(A) such that:
+        </p>
+        <ol>
+          <li>P(A) ≥ 0 for all events A (non-negativity);</li>
+          <li>P(Ω) = 1 (normalization);</li>
+          <li>For disjoint events A₁, A₂, … (countably many), P(∪ᵢ Aᵢ) = Σᵢ P(Aᵢ) (countable additivity).</li>
+        </ol>
+        <p>Everything else — conditional probability, expectation, the CLT — is a corollary of these three sentences.</p>
+      </div>
+
+      <p>
+        <strong>Counting</strong> is the engine of classical probability. When every outcome of a finite sample
+        space is equally likely, P(A) = |A| ⁄ |Ω| — so computing a probability is a problem of counting
+        sets. The two fundamental counters are <em>permutations</em> (ordered selections) and
+        <em>combinations</em> (unordered selections):
+      </p>
+      <p class="formula-line">
+        P(n, r) =
+        <span class="frac"><span class="num">n!</span><span class="den">(n − r)!</span></span>
+        &nbsp;&nbsp;&nbsp;
+        C(n, r) =
+        <span class="frac"><span class="num">n!</span><span class="den">r! (n − r)!</span></span>
+      </p>
+      <p>
+        With repetition allowed, ordered counting gives n<sup>r</sup>, and unordered counting gives the
+        stars-and-bars count C(n + r − 1, r). These four quantities generate every poker hand, every
+        lottery edge, and most of discrete probability.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛏ</span> Definition — Conditional Probability &amp; Independence</div>
+        <p>
+          For P(B) &gt; 0, the conditional probability of A given B is
+        </p>
+        <p class="formula-line">
+          P(A | B) =
+          <span class="frac"><span class="num">P(A ∩ B)</span><span class="den">P(B)</span></span>
+        </p>
+        <p>
+          Events A and B are <strong>independent</strong> when P(A ∩ B) = P(A) P(B) — equivalently P(A | B) = P(A),
+          meaning knowledge of B carries no information about A. Most real-world events are <em>dependent</em>;
+          the Law of Total Probability organizes that dependence: if B₁, …, Bₖ partition Ω, then
+          P(A) = Σᵢ P(A | Bᵢ) P(Bᵢ).
+        </p>
+      </div>
+
+      <!-- CH1 Interactive 1 -->
+      <div class="sim" id="sim-sample-space">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛞ</span> Interactive — Sample-Space Explorer</h4>
+          <p class="sim-sub">Enumerate Ω completely, then measure an event by direct counting: P(A) = |A| ⁄ |Ω|.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Experiment</span>
+            <select id="ss-kind" aria-label="Experiment type">
+              <option value="coins">Coin flips</option>
+              <option value="dice">Two dice</option>
+            </select>
+          </label>
+          <label class="ctl" id="ss-coins-ctl">
+            <span class="ctl-label">Coins: <output id="ss-n-val">3</output></span>
+            <input type="range" id="ss-n" min="1" max="6" step="1" value="3" aria-label="Number of coins" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Event A</span>
+            <select id="ss-event" aria-label="Event to measure"></select>
+          </label>
+        </div>
+        <div class="sim-readout">
+          <div class="stat"><span class="stat-label">|Ω|</span><span class="stat-value" id="ss-total">8</span></div>
+          <div class="stat"><span class="stat-label">|A|</span><span class="stat-value" id="ss-fav">3</span></div>
+          <div class="stat"><span class="stat-label">P(A)</span><span class="stat-value" id="ss-prob">0.375</span></div>
+        </div>
+        <div class="cards" id="ss-cards" role="list" aria-label="Enumerated outcomes"></div>
+      </div>
+
+      <!-- CH1 Interactive 2 -->
+      <div class="sim" id="sim-combinatorics">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛟ</span> Interactive — Combinatorics Calculator</h4>
+          <p class="sim-sub">Exact BigInt arithmetic — no floating-point rounding, even for 60-choose-30.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">n = <output id="cb-n-val">12</output></span>
+            <input type="range" id="cb-n" min="2" max="60" step="1" value="12" aria-label="n, pool size" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">r = <output id="cb-r-val">5</output></span>
+            <input type="range" id="cb-r" min="0" max="12" step="1" value="5" aria-label="r, selections" />
+          </label>
+        </div>
+        <div class="combo-grid">
+          <div class="combo-cell">
+            <div class="combo-formula">P(n, r) = <span class="frac"><span class="num">n!</span><span class="den">(n−r)!</span></span></div>
+            <div class="combo-label">Permutations (ordered, no repetition)</div>
+            <div class="combo-value" id="cb-perm">95,040</div>
+          </div>
+          <div class="combo-cell">
+            <div class="combo-formula">C(n, r) = <span class="frac"><span class="num">n!</span><span class="den">r!(n−r)!</span></span></div>
+            <div class="combo-label">Combinations (unordered, no repetition)</div>
+            <div class="combo-value" id="cb-comb">792</div>
+          </div>
+          <div class="combo-cell">
+            <div class="combo-formula">n<sup>r</sup></div>
+            <div class="combo-label">Ordered, with repetition</div>
+            <div class="combo-value" id="cb-permrep">248,832</div>
+          </div>
+          <div class="combo-cell">
+            <div class="combo-formula">C(n+r−1, r) = <span class="frac"><span class="num">(n+r−1)!</span><span class="den">r!(n−1)!</span></span></div>
+            <div class="combo-label">Unordered, with repetition (stars &amp; bars)</div>
+            <div class="combo-value" id="cb-combrep">4,368</div>
+          </div>
+        </div>
+        <p class="sim-note">Values beyond memory are exact big integers — formatted with digit grouping. Cap: n ≤ 60 keeps nine-digit displays sane.</p>
+      </div>
+
+      <!-- CH1 Interactive 3 -->
+      <div class="sim" id="sim-conditional">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛊ</span> Interactive — Conditional Probability Table</h4>
+          <p class="sim-sub">Edit the 2×2 contingency counts. Watch P(A | B) ≠ P(B | A) — and test independence, P(A ∩ B) vs. P(A)P(B).</p>
+        </div>
+        <div class="cp-layout">
+          <table class="cp-table" aria-label="Contingency table of observed counts">
+            <thead>
+              <tr><th scope="col"></th><th scope="col">B: carries umbrella</th><th scope="col">¬B: no umbrella</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">A: rains</th>
+                <td><input type="number" id="cp-ab" min="0" value="30" aria-label="Count: rain and umbrella" /></td>
+                <td><input type="number" id="cp-aNb" min="0" value="6" aria-label="Count: rain and no umbrella" /></td>
+              </tr>
+              <tr>
+                <th scope="row">¬A: no rain</th>
+                <td><input type="number" id="cp-Nab" min="0" value="12" aria-label="Count: no rain and umbrella" /></td>
+                <td><input type="number" id="cp-NaNb" min="0" value="52" aria-label="Count: no rain and no umbrella" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="cp-readout">
+            <div class="stat"><span class="stat-label">P(A | B)</span><span class="stat-value" id="cp-pAb">—</span></div>
+            <div class="stat"><span class="stat-label">P(B | A)</span><span class="stat-value" id="cp-pBa">—</span></div>
+            <div class="stat"><span class="stat-label">P(A ∩ B)</span><span class="stat-value" id="cp-joint">—</span></div>
+            <div class="stat"><span class="stat-label">P(A)·P(B)</span><span class="stat-value" id="cp-product">—</span></div>
+            <div class="verdict" id="cp-check" role="status">—</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CH 2 ============================== -->
+    <section class="chapter" id="ch-distributions" data-rune="ᚱ" data-title="Distributions">
+      <div class="chapter-head">
+        <span class="chapter-rune" aria-hidden="true">ᚱ</span>
+        <div>
+          <p class="chapter-kicker">Chapter II</p>
+          <h2>Distributions — The Shapes of Randomness</h2>
+        </div>
+      </div>
+
+      <p>
+        A <strong>random variable</strong> X is a function from outcomes to numbers — it turns "the coin came up
+        heads" into X = 1. Its behavior is captured by a <strong>probability mass function</strong> (PMF) for discrete
+        variables, p(x) = P(X = x), or a <strong>probability density function</strong> (PDF) for continuous ones,
+        with the <strong>cumulative distribution function</strong> F(x) = P(X ≤ x) unifying both.
+      </p>
+      <p>
+        Two numbers summarize any distribution. The <strong>expected value</strong> E[X] = Σ x p(x) is the
+        long-run average; the <strong>variance</strong> Var(X) = E[(X − μ)²] measures spread. Higher moments refin
+        the picture: <strong>skewness</strong> γ₁ = E[(X−μ)³] ⁄ σ³ detects asymmetry, and <strong>kurtosis</strong>
+        (excess γ₂ = E[(X−μ)⁴] ⁄ σ⁴ − 3) measures tail weight.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛒ</span> Definitions — The Great Four</div>
+        <ul class="def-list">
+          <li><strong>Binomial(n, p):</strong> the number of successes in n independent trials, each succeeding with probability p. P(X = k) = C(n, k) pᵏ (1−p)<sup>n−k</sup>; μ = np, σ² = np(1−p). Models: streaks, win counts.</li>
+          <li><strong>Poisson(λ):</strong> the limit of Binomial as n → ∞, p → 0 with np = λ fixed — counting rare events. P(X = k) = e<sup>−λ</sup>λᵏ ⁄ k!; μ = σ² = λ.</li>
+          <li><strong>Geometric(p):</strong> the waiting time until the first success. P(X = k) = (1−p)<sup>k−1</sup>p; μ = 1/p. It is <em>memoryless</em>: P(X &gt; m+n | X &gt; m) = P(X &gt; n).</li>
+          <li><strong>Normal(μ, σ²):</strong> the continuous limit of aggregated noise. f(x) =
+            <span class="frac"><span class="num">1</span><span class="den">σ√(2π)</span></span>
+            exp(−(x−μ)² ⁄ 2σ²). Symmetric; skew 0, excess kurtosis 0. Its CDF Φ is computed here via an erf rational approximation, and its quantile Φ⁻¹ by bisection on Φ.</li>
+        </ul>
+      </div>
+
+      <!-- CH2 Interactive -->
+      <div class="sim" id="sim-distributions">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛗ</span> Interactive — Distribution Playground</h4>
+          <p class="sim-sub">PMF/PDF bars (violet) with the CDF overlaid on the right axis (gold). Then draw real samples and watch the empirical histogram converge.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Distribution</span>
+            <select id="dp-kind" aria-label="Distribution family">
+              <option value="binomial">Binomial (n, p)</option>
+              <option value="poisson">Poisson (λ)</option>
+              <option value="geometric">Geometric (p)</option>
+              <option value="normal">Normal (μ, σ)</option>
+            </select>
+          </label>
+          <label class="ctl" id="dp-a-wrap">
+            <span class="ctl-label"><span id="dp-a-label">n</span> = <output id="dp-a-val">20</output></span>
+            <input type="range" id="dp-a" aria-label="First distribution parameter" />
+          </label>
+          <label class="ctl" id="dp-b-wrap">
+            <span class="ctl-label"><span id="dp-b-label">p</span> = <output id="dp-b-val">0.50</output></span>
+            <input type="range" id="dp-b" aria-label="Second distribution parameter" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="dp-draw" type="button">Sample 1,000</button>
+            <button class="btn btn-ghost" id="dp-clear" type="button">Clear samples</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Drawn</span><output id="dp-sample-n">0</output></div>
+        </div>
+        <div class="sim-readout">
+          <div class="stat"><span class="stat-label">μ (mean)</span><span class="stat-value" id="dp-mean">—</span></div>
+          <div class="stat"><span class="stat-label">σ² (variance)</span><span class="stat-value" id="dp-var">—</span></div>
+          <div class="stat"><span class="stat-label">σ (sd)</span><span class="stat-value" id="dp-sd">—</span></div>
+          <div class="stat"><span class="stat-label">γ₁ (skew)</span><span class="stat-value" id="dp-skew">—</span></div>
+          <div class="stat"><span class="stat-label">γ₂ (ex. kurt.)</span><span class="stat-value" id="dp-kurt">—</span></div>
+        </div>
+        <div class="sim-stage two-col">
+          <figure class="chart-figure">
+            <figcaption>Theory — PMF / PDF with CDF overlay</figcaption>
+            <canvas id="dp-chart" data-height="280" aria-label="Theoretical distribution chart"></canvas>
+          </figure>
+          <figure class="chart-figure">
+            <figcaption>Empirical samples vs theory</figcaption>
+            <canvas id="dp-hist" data-height="280" aria-label="Sampling histogram versus theory"></canvas>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CH 3 ============================== -->
+    <section class="chapter" id="ch-theorems" data-rune="ᚦ" data-title="Core Theorems">
+      <div class="chapter-head">
+        <span class="chapter-rune" aria-hidden="true">ᚦ</span>
+        <div>
+          <p class="chapter-kicker">Chapter III</p>
+          <h2>Core Theorems — Why Order Emerges from Chaos</h2>
+        </div>
+      </div>
+
+      <p>
+        Three theorems elevate probability from bookkeeping to law. The <strong>Law of Large Numbers</strong>
+        says averages converge to expectations; the <strong>Central Limit Theorem</strong> says the <em>shape</em>
+        of that convergence is always the same bell; and <strong>Bayes' Theorem</strong> tells you exactly how
+        evidence should move belief.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛇ</span> Theorem — Law of Large Numbers</div>
+        <p>
+          Let X₁, X₂, … be i.i.d. with E[Xᵢ] = μ, and let p̂<sub>n</sub> = (X₁ + … + Xₙ) ⁄ n.
+          The <em>weak</em> law: for any ε &gt; 0, P(|p̂<sub>n</sub> − μ| &gt; ε) → 0 as n → ∞.
+          The <em>strong</em> law (Kolmogorov): P(p̂<sub>n</sub> → μ) = 1 — convergence happens on
+          almost every infinite sequence. Chebyshev's inequality makes the rate explicit:
+          P(|p̂<sub>n</sub> − μ| ≥ ε) ≤ σ² ⁄ (n ε²) — the ±3σₜ band drawn in the simulator below shrinks like 1 ⁄ √n.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛚ</span> Theorem — Central Limit Theorem</div>
+        <p>
+          For i.i.d. Xᵢ with mean μ and finite variance σ², the standardized sample mean satisfies
+        </p>
+        <p class="formula-line">
+          <span class="frac"><span class="num">p̂<sub>n</sub> − μ</span><span class="den">σ ⁄ √n</span></span>
+          ⟶ N(0, 1) &nbsp;&nbsp;in distribution as n → ∞.
+        </p>
+        <p>
+          The miracle is universality: dice, coins, incomes, lifetimes — <em>any</em> population with finite variance
+          yields bell-shaped sample means. The standard error σ ⁄ √n quantifies exactly how sampling size
+          purchases precision: quadrupling n halves the spread.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛞ</span> Theorem — Bayes' Theorem</div>
+        <p>
+          P(A | B) =
+          <span class="frac"><span class="num">P(B | A) P(A)</span><span class="den">P(B)</span></span>
+          =
+          <span class="frac"><span class="num">P(B | A) P(A)</span><span class="den">P(B | A)P(A) + P(B | ¬A)P(¬A)</span></span>
+        </p>
+        <p>
+          Posterior belief = prior belief × likelihood of the evidence, renormalized. The classic trap — the
+          <strong>base-rate fallacy</strong> — is reading P(disease | positive test) as if it were the sensitivity
+          P(positive | disease). When disease prevalence is 1%, even a 99%-sensitive, 95%-specific test yields a
+          posterior of only ≈ 17%. The denominator carries the base rate; intuition never does.
+        </p>
+      </div>
+
+      <!-- CH3 LLN -->
+      <div class="sim" id="sim-lln">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚲ</span> Interactive — Law of Large Numbers</h4>
+          <p class="sim-sub">A biased coin flipped at speed. The running proportion (gold path) is reined into the true bias (white line); the ±3σₜ convergence band shrinks like 1 ⁄ √n.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">True bias p = <output id="lln-p-val">0.50</output></span>
+            <input type="range" id="lln-p" min="0.01" max="0.99" step="0.01" value="0.5" aria-label="True coin bias" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Speed: <output id="lln-speed-val">25</output> flips/frame</span>
+            <input type="range" id="lln-speed" min="1" max="500" step="1" value="25" aria-label="Flips per animation frame" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="lln-toggle" type="button" aria-pressed="false">Start</button>
+            <button class="btn btn-ghost" id="lln-reset" type="button">Reset</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Flips</span><output id="lln-n">0</output></div>
+          <div class="ctl"><span class="ctl-label">p̂</span><output id="lln-prop">—</output></div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="lln-chart" data-height="300" aria-label="Running sample proportion versus number of flips"></canvas>
+        </div>
+      </div>
+
+      <!-- CH3 CLT -->
+      <div class="sim" id="sim-clt">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛞ</span> Interactive — Central Limit Laboratory</h4>
+          <p class="sim-sub">Sample means from skewed populations. At n = 1 the histogram copies the population; raise n and the bell asserts itself. The gold curve is the fitted N(μ, σ² ⁄ n).</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Population</span>
+            <select id="clt-kind" aria-label="Population distribution">
+              <option value="fairDie">Fair die (uniform)</option>
+              <option value="biasedDie">Biased die (skewed)</option>
+              <option value="fairCoin">Fair coin (Bernoulli 0.5)</option>
+              <option value="loadedCoin">Loaded coin (Bernoulli 0.85)</option>
+            </select>
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Sample size n = <output id="clt-n-val">10</output></span>
+            <input type="range" id="clt-n" min="1" max="50" step="1" value="10" aria-label="Sample size per mean" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="clt-run" type="button">Draw 500 sample means</button>
+            <button class="btn btn-ghost" id="clt-reset" type="button">Reset</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Means drawn</span><output id="clt-total">0</output></div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="clt-chart" data-height="300" aria-label="Sampling distribution of the mean with fitted normal"></canvas>
+        </div>
+      </div>
+
+      <!-- CH3 Bayes -->
+      <div class="sim" id="sim-bayes">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛏ</span> Interactive — Bayes and the Base-Rate Trap</h4>
+          <p class="sim-sub">1,000 people: <span class="legend-dot tp"></span>true positives, <span class="legend-dot fp"></span>false positives, <span class="legend-dot fn"></span>false negatives, <span class="legend-dot tn"></span>true negatives. Prevalence quietly dominates the posterior.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Prevalence = <output id="by-prev-val">1.0%</output></span>
+            <input type="range" id="by-prev" min="0.001" max="0.40" step="0.001" value="0.01" aria-label="Disease prevalence" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Sensitivity = <output id="by-sens-val">99%</output></span>
+            <input type="range" id="by-sens" min="0.5" max="1" step="0.01" value="0.99" aria-label="Test sensitivity" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Specificity = <output id="by-spec-val">95%</output></span>
+            <input type="range" id="by-spec" min="0.5" max="1" step="0.01" value="0.95" aria-label="Test specificity" />
+          </label>
+        </div>
+        <div class="sim-stage">
+          <canvas id="by-grid" data-height="230" aria-label="Icon grid of one thousand classified people"></canvas>
+        </div>
+        <div class="sim-readout">
+          <div class="stat"><span class="stat-label">True +</span><span class="stat-value" id="by-tp">—</span></div>
+          <div class="stat"><span class="stat-label">False +</span><span class="stat-value" id="by-fp">—</span></div>
+          <div class="stat"><span class="stat-label">True −</span><span class="stat-value" id="by-tn">—</span></div>
+          <div class="stat"><span class="stat-label">False −</span><span class="stat-value" id="by-fn">—</span></div>
+          <div class="stat big"><span class="stat-label">P(disease | +)</span><span class="stat-value" id="by-post">—</span></div>
+        </div>
+        <p class="sim-note" id="by-note">Intuition says "the test is 99% accurate." Arithmetic disagrees — the denominator is crowded with healthy false positives.</p>
+      </div>
+    </section>
+
+    <!-- ============================== CH 4 ============================== -->
+    <section class="chapter" id="ch-gambler" data-rune="ᛋ" data-title="The Gambler's Path">
+      <div class="chapter-head">
+        <span class="chapter-rune" aria-hidden="true">ᛋ</span>
+        <div>
+          <p class="chapter-kicker">Chapter IV</p>
+          <h2>The Gambler's Path — A Cautionary Calculus</h2>
+        </div>
+      </div>
+
+      <p>
+        Casinos do not gamble; they <em>engineer expected value</em>. The expected value of a bet that pays b units
+        on a win (probability p) and loses the 1-unit stake otherwise is EV = p·b − (1 − p). European roulette's
+        single number pays 35:1 against success probability 1 ⁄ 37, giving EV = −1 ⁄ 37 ≈ −2.70% per unit staked;
+        the American double-zero wheel costs −2 ⁄ 38 ≈ −5.26%. The house edge is the negative of your EV — and it
+        is assessed on every unit wagered, every spin.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛟ</span> Theorem — Gambler's Ruin</div>
+        <p>
+          A gambler starts with i units, wins each round with probability p (q = 1 − p), gains or loses 1 unit per
+          round, and stops on reaching 0 (ruin) or N (target). Solving the recurrence u(i) = p·u(i+1) + q·u(i−1)
+          with boundary conditions u(0) = 0, u(N) = 1:
+        </p>
+        <p class="formula-line">
+          P(reach N before ruin) =
+          <span class="frac"><span class="num">1 − (q ⁄ p)<sup>i</sup></span><span class="den">1 − (q ⁄ p)<sup>N</sup></span>
+          &nbsp; for p ≠ ½, &nbsp;&nbsp; and &nbsp; i ⁄ N &nbsp; for p = ½.
+        </p>
+        <p>
+          When p &lt; ½ the formula is brutal: raise the target N and survival probability collapses geometrically.
+          Persistence is not a strategy; it is a denominator.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛜ</span> Analysis — The Martingale Illusion</div>
+        <p>
+          Double your bet after every loss; on the first win you recoup everything plus one base unit. The scheme
+          converts many small wins into rare, ruinous losses — the probability of busting after k consecutive
+          losses is q<sup>k</sup>, never zero. Crucially, expectation is linear and indifferent to staking schemes:
+          every spin still carries EV = (p − q)·bet &lt; 0, so <strong>no sequence of negative-EV bets can sum to a
+          positive-EV system</strong>. A finite bankroll merely decides <em>when</em> the arithmetic collects.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛇ</span> Fallacies — The Gambler's &amp; the Hot Hand</div>
+        <p>
+          Independent trials have no memory: after five heads, P(heads) is still p — "tails is due" is the
+          <strong>gambler's fallacy</strong>. Its mirror, the <strong>hot-hand fallacy</strong>, projects streaks
+          onto independent processes and expects them to continue. Both are refuted by the same line of algebra:
+          P(A | B) = P(A) when A and B are independent. Streaks are not information; they are realizations.
+        </p>
+      </div>
+
+      <!-- CH4 EV -->
+      <div class="sim" id="sim-ev">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚹ</span> Interactive — Expected Value &amp; House Edge</h4>
+          <p class="sim-sub">Set win probability p and net payout b per 1 unit staked. EV = p·b − (1 − p). Negative EV means the house collects the difference as its edge.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Win probability p = <output id="ev-p-val">0.4865</output></span>
+            <input type="range" id="ev-p" min="0" max="1" step="0.0005" value="0.4865" aria-label="Win probability" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Net payout b = <output id="ev-pay-val">1.00</output> : 1</span>
+            <input type="range" id="ev-pay" min="0.1" max="40" step="0.05" value="1" aria-label="Net payout odds" />
+          </label>
+          <div class="ctl"><span class="ctl-label">EV per unit</span><output id="ev-out">—</output></div>
+          <div class="ctl verdict" id="ev-verdict" role="status">—</div>
+        </div>
+        <table class="edge-table" aria-label="Computed house edges for standard casino bets">
+          <thead>
+            <tr><th scope="col">Bet</th><th scope="col">p</th><th scope="col">Payout</th><th scope="col">EV per unit</th><th scope="col">House edge</th></tr>
+          </thead>
+          <tbody id="ev-table"></tbody>
+        </table>
+      </div>
+
+      <!-- CH4 Ruin -->
+      <div class="sim" id="sim-ruin">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛗ</span> Interactive — Gambler's Ruin Random Walks</h4>
+          <p class="sim-sub">Each path is one bankroll's walk between 0 and N. Simulation counts drift toward the exact ruin formula — theory and tally converge as runs accumulate.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Win prob p = <output id="gr-p-val">0.49</output></span>
+            <input type="range" id="gr-p" min="0.01" max="0.99" step="0.01" value="0.49" aria-label="Win probability per round" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Start i = <output id="gr-i-val">20</output></span>
+            <input type="range" id="gr-i" min="1" max="99" step="1" value="20" aria-label="Starting stake" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Target N = <output id="gr-N-val">40</output></span>
+            <input type="range" id="gr-N" min="2" max="100" step="1" value="40" aria-label="Target bankroll" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="gr-run" type="button">Run 100 walks</button>
+            <button class="btn btn-ghost" id="gr-reset" type="button">Reset</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">P(ruin) — theory</span><output id="gr-theory">—</output></div>
+          <div class="ctl"><span class="ctl-label">simulated</span><output id="gr-sim">—</output></div>
+          <div class="ctl"><span class="ctl-label">walks</span><output id="gr-n">0</output></div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="gr-chart" data-height="300" aria-label="Random walk paths between ruin and target"></canvas>
+        </div>
+      </div>
+
+      <!-- CH4 Martingale -->
+      <div class="sim" id="sim-martingale">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛏ</span> Interactive — Martingale Under a Finite Bankroll</h4>
+          <p class="sim-sub">Double after losses until one win (profit of one base bet) or the bankroll can no longer cover the stake (bust). Hundreds of tiny profits; occasional total ruin. The expectation never moves.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Base bet = <output id="mt-base-val">5</output></span>
+            <input type="range" id="mt-base" min="1" max="50" step="1" value="5" aria-label="Base bet size" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Bankroll = <output id="mt-bank-val">500</output></span>
+            <input type="range" id="mt-bank" min="100" max="10000" step="50" value="500" aria-label="Starting bankroll" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">Win prob p = <output id="mt-p-val">0.4865</output></span>
+            <input type="range" id="mt-p" min="0.30" max="0.50" step="0.0005" value="0.4865" aria-label="Win probability per round" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="mt-run" type="button">Play 100 sessions</button>
+            <button class="btn btn-ghost" id="mt-reset" type="button">Reset</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Profit sessions</span><output id="mt-profit">0</output></div>
+          <div class="ctl"><span class="ctl-label">Busts</span><output id="mt-bust">0</output></div>
+          <div class="ctl verdict" id="mt-evnote" role="status">—</div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="mt-chart" data-height="300" aria-label="Bankroll trajectories of martingale sessions"></canvas>
+        </div>
+      </div>
+
+      <!-- CH4 Fallacy -->
+      <div class="sim" id="sim-fallacy">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚠ</span> Interactive — The Coin Has No Memory</h4>
+          <p class="sim-sub">Flip a fair coin. <span class="legend-sq h"></span> heads, <span class="legend-sq t"></span> tails. However long the streak, P(next heads) = 0.5 — independence is the whole story.</p>
+        </div>
+        <div class="sim-controls">
+          <div class="ctl btns">
+            <button class="btn" id="fa-flip" type="button">Flip once</button>
+            <button class="btn btn-ghost" id="fa-flip100" type="button">Flip ×100</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Flips</span><output id="fa-n">0</output></div>
+          <div class="ctl"><span class="ctl-label">Current streak</span><output id="fa-run">—</output></div>
+          <div class="ctl"><span class="ctl-label">P(next heads)</span><output id="fa-pnext">0.5000 (always)</output></div>
+        </div>
+        <div class="streak" id="fa-streak" aria-label="Flip history, oldest to newest"></div>
+        <div class="quiz">
+          <p class="quiz-q">You just watched <strong>5 heads in a row</strong>. Honest odds: what is P(tails on the next flip)?</p>
+          <div class="quiz-opts" role="group" aria-label="Quiz answers">
+            <button class="btn fa-opt" data-val="lt" type="button">Less than 0.5</button>
+            <button class="btn fa-opt" data-val="eq" type="button">Exactly 0.5</button>
+            <button class="btn fa-opt" data-val="gt" type="button">More than 0.5</button>
+          </div>
+          <p class="quiz-out" id="fa-quiz-out" role="status">The codex awaits your answer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== CH 5 ============================== -->
+    <section class="chapter" id="ch-advanced" data-rune="ᛝ" data-title="Advanced Methods">
+      <div class="chapter-head">
+        <span class="chapter-rune" aria-hidden="true">ᛝ</span>
+        <div>
+          <p class="chapter-kicker">Chapter V</p>
+          <h2>Advanced Methods — Measuring the Unseen</h2>
+        </div>
+      </div>
+
+      <p>
+        Mature statistics is a technology for extracting signal from randomness. <strong>Monte Carlo</strong>
+        methods replace hard integrals with cheap samples; <strong>hypothesis testing</strong> formalizes
+        "is this real?"; <strong>Bayesian updating</strong> turns evidence into movement of belief; and
+        <strong>Shannon entropy</strong> prices uncertainty itself in bits.
+      </p>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᚨ</span> Method — Monte Carlo Estimation</div>
+        <p>
+          To estimate π, throw uniform darts at the unit square: the fraction landing inside the quarter circle is
+          π ⁄ 4, so π̂ = 4·(# inside) ⁄ N. By the CLT the error is O(1 ⁄ √N) — quadrupling your darts halves the
+          error. The same σ ⁄ √N law governs every simulation on this page: scatter, then settle.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛈ</span> Method — Hypothesis Testing</div>
+        <p>
+          Testing H₀: p = p₀ for a coin with K heads in n flips uses the z-statistic
+        </p>
+        <p class="formula-line">
+          z =
+          <span class="frac"><span class="num">K − n p₀</span><span class="den">√(n p₀ (1 − p₀))</span></span>
+        </p>
+        <p>
+          with two-sided p-value 2(1 − Φ(|z|)). Rejecting a true H₀ is a <strong>Type I error</strong> (controlled at
+          α, here 0.05); failing to reject a false H₀ is a <strong>Type II error</strong>. Power — the chance of catching
+          a real deviation — grows with sample size; significance is a property of the evidence, not a switch.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛊ</span> Method — Sequential Bayesian Updating</div>
+        <p>
+          Competing hypotheses (fair coin θ₁ = 0.5 vs. biased θ₂ = 0.7) update by multiplying the prior odds by the
+          likelihood ratio: heads multiplies P(H | θ₁) ⁄ P(H | θ₂), tails the converse. In log-odds form each flip
+          adds a fixed increment — evidence accumulates linearly in the log, so posterior probability <em>sigmoids</em>
+          toward the truth. Bayes factors make belief revision arithmetic rather than opinion.
+        </p>
+      </div>
+
+      <div class="theorem">
+        <div class="theorem-tag"><span class="rune" aria-hidden="true">ᛞ</span> Definition — Shannon Entropy</div>
+        <p>
+          H(X) = −Σ<sub>x</sub> p(x) log₂ p(x) — the average surprise, in bits, of sampling X.
+          For k outcomes, H is maximized by the uniform distribution at H = log₂ k bits, and collapses to 0 when a
+          single outcome is certain. Entropy and variance are twin measures of scatter: variance weighs squared
+          distance, entropy counts unexpected symbols. A fair die carries log₂ 6 ≈ 2.585 bits; a loaded die squanders
+          them. The gate opens at maximum entropy; knowledge closes it.
+        </p>
+      </div>
+
+      <!-- CH5 Monte Carlo -->
+      <div class="sim" id="sim-pi">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚺ</span> Interactive — Monte Carlo π</h4>
+          <p class="sim-sub">Darts at the unit square (gold inside the quarter circle, violet outside). π̂ = 4 · (inside ⁄ total); the error chart tracks |π̂ − π| against N with a ∝ 1 ⁄ √N reference band.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Batch: <output id="pi-batch-val">100</output> darts/frame</span>
+            <input type="range" id="pi-batch" min="1" max="2000" step="1" value="100" aria-label="Darts per animation frame" />
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="pi-toggle" type="button" aria-pressed="false">Start throwing</button>
+            <button class="btn btn-ghost" id="pi-reset" type="button">Reset</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">Darts</span><output id="pi-n">0</output></div>
+          <div class="ctl"><span class="ctl-label">π̂</span><output id="pi-est">—</output></div>
+          <div class="ctl"><span class="ctl-label">|error|</span><output id="pi-diff">—</output></div>
+          <div class="ctl" id="pi-note"><span class="ctl-label">Status</span><output>idle</output></div>
+        </div>
+        <div class="sim-stage two-col">
+          <figure class="chart-figure">
+            <figcaption>Dart board</figcaption>
+            <canvas id="pi-darts" data-height="320" aria-label="Monte Carlo dart board"></canvas>
+          </figure>
+          <figure class="chart-figure">
+            <figcaption>|π̂ − π| vs N (axes log-log)</figcaption>
+            <canvas id="pi-err" data-height="320" aria-label="Monte Carlo estimation error versus number of darts"></canvas>
+          </figure>
+        </div>
+      </div>
+
+      <!-- CH5 Hypothesis test -->
+      <div class="sim" id="sim-htest">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᛖ</span> Interactive — Hypothesis Testing a Suspicious Coin</h4>
+          <p class="sim-sub">H₀: the coin is fair (p₀ = 0.5), α = 0.05. Flip it, and the z-statistic converts the head-count into a two-sided p-value. Mystery mode hides the truth — reveal it when your verdict is in.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">True p = <output id="hx-p-val">0.62</output></span>
+            <input type="range" id="hx-p" min="0.05" max="0.95" step="0.01" value="0.62" aria-label="True coin bias" />
+          </label>
+          <label class="ctl ctl-check">
+            <input type="checkbox" id="hx-mystery" aria-label="Mystery mode" />
+            <span>Mystery mode (hide true p)</span>
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="hx-flip" type="button">Flip</button>
+            <button class="btn" id="hx-flip100" type="button">Flip ×100</button>
+            <button class="btn btn-ghost" id="hx-reset" type="button">Reset</button>
+            <button class="btn btn-ghost" id="hx-reveal" type="button">Reveal truth</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">n</span><output id="hx-n">0</output></div>
+          <div class="ctl"><span class="ctl-label">Heads</span><output id="hx-h">0</output></div>
+          <div class="ctl"><span class="ctl-label">z</span><output id="hx-z">—</output></div>
+          <div class="ctl"><span class="ctl-label">p-value</span><output id="hx-pv">—</output></div>
+          <div class="ctl verdict" id="hx-verdict" role="status">No data yet — H₀ lives unchallenged.</div>
+          <div class="ctl" id="hx-truth"><span class="ctl-label">Truth</span><output>visible above</output></div>
+        </div>
+      </div>
+
+      <!-- CH5 Bayesian updating -->
+      <div class="sim" id="sim-bayup">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚷ</span> Interactive — Bayesian Updating, Flip by Flip</h4>
+          <p class="sim-sub">Two hypotheses: θ₁ fair (p = 0.50) or θ₂ heads-biased (p = 0.70). Each flip multiplies the odds by a Bayes factor; the posterior bar renormalizes. Choose the true coin — or let fate choose.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Prior P(fair) = <output id="bu-prior-val">50%</output></span>
+            <input type="range" id="bu-prior" min="0.01" max="0.99" step="0.01" value="0.5" aria-label="Prior probability of fair coin" />
+          </label>
+          <label class="ctl">
+            <span class="ctl-label">True coin</span>
+            <select id="bu-truth" aria-label="True coin model">
+              <option value="random">Random (hidden)</option>
+              <option value="fair">Fair (p = 0.5)</option>
+              <option value="biased">Heads-biased (p = 0.7)</option>
+            </select>
+          </label>
+          <div class="ctl btns">
+            <button class="btn" id="bu-flip" type="button">Flip</button>
+            <button class="btn" id="bu-flip10" type="button">Flip ×10</button>
+            <button class="btn btn-ghost" id="bu-reset" type="button">Reset to prior</button>
+          </div>
+          <div class="ctl"><span class="ctl-label">P(fair | data)</span><output id="bu-p1">—</output></div>
+          <div class="ctl"><span class="ctl-label">P(biased | data)</span><output id="bu-p2">—</output></div>
+          <div class="ctl"><span class="ctl-label">Log Bayes factor</span><output id="bu-log">0.000</output></div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="bu-bar" data-height="140" aria-label="Posterior probability bars for both hypotheses"></canvas>
+        </div>
+      </div>
+
+      <!-- CH5 Entropy -->
+      <div class="sim" id="sim-entropy">
+        <div class="sim-head">
+          <h4><span class="rune" aria-hidden="true">ᚺ</span> Interactive — Entropy Laboratory</h4>
+          <p class="sim-sub">H = −Σ p log₂ p. The uniform distribution maximizes entropy at log₂(k); every skew leaks bits. Watch a die's 2.585 bits drain away as you load it.</p>
+        </div>
+        <div class="sim-controls">
+          <label class="ctl">
+            <span class="ctl-label">Distribution</span>
+            <select id="en-kind" aria-label="Distribution for entropy">
+              <option value="fairdie">Fair die</option>
+              <option value="loaded">Loaded die (slider loads ⚂)</option>
+              <option value="coin">Biased coin</option>
+              <option value="uniform">Uniform over k symbols</option>
+            </select>
+          </label>
+          <label class="ctl" id="en-param-wrap">
+            <span class="ctl-label"><span id="en-param-label">P(⚂)</span> = <output id="en-param-val">—</output></span>
+            <input type="range" id="en-param" aria-label="Distribution parameter" />
+          </label>
+          <div class="ctl"><span class="ctl-label">H (bits)</span><output id="en-h">—</output></div>
+          <div class="ctl"><span class="ctl-label">max = log₂(k)</span><output id="en-max">—</output></div>
+          <div class="ctl verdict" id="en-k" role="status">—</div>
+        </div>
+        <div class="sim-stage">
+          <canvas id="en-bars" data-height="240" aria-label="Outcome probabilities with entropy readout"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p class="footer-epigraph">⟡ many roads, one measure ⟡</p>
+      <p>
+        The Entropy Gate — every simulation on this page is computed locally in your browser, in real time, from the
+        same axioms the codex teaches. No data leaves the machine; randomness is drawn from your own runtime.
+        A study of chance, not an invitation to it: the house edge arithmetic above favors only the house.
+      </p>
+      <p class="footer-runes" aria-hidden="true">ᚠ ᚱ ᚦ ᛋ ᛝ</p>
+    </footer>
+  </main>
+
+  <script src="js/math.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/sims.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+```
